@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Profile from './Profile';
+import Gallery from './Gallery';
 import { FormGroup, FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 
 
@@ -12,22 +13,24 @@ class App extends Component {
       query: '',
       artist: null,
       ACCESS_TOKEN: '',
-    }    
+      tracks: [],
+    }
   }
-  
 
-  componentDidMount(){
+
+  componentDidMount() {
     this.spotifyRefresh();
   }
 
   search() {
     const BASE_URL = 'https://api.spotify.com/v1/search?';
-    const FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
+    let FETCH_URL = `${BASE_URL}q=${this.state.query}&type=artist&limit=1`;
     const TOKEN = this.state.ACCESS_TOKEN;
+    const ALBUM_URL = 'https://api.spotify.com/v1/artists/';
 
     fetch(FETCH_URL, {
       method: 'GET',
-      headers: { 'Authorization': 'Bearer ' +  TOKEN}
+      headers: { 'Authorization': 'Bearer ' + TOKEN }
     })
       .then(response => response.json())
       .then(json => {
@@ -36,6 +39,19 @@ class App extends Component {
         }
         const artist = json.artists.items[0];
         this.setState({ artist }); // same name variable and state key (artist)
+
+        FETCH_URL = `${ALBUM_URL}${artist.id}/top-tracks?country=BR&`
+        fetch(FETCH_URL, {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + TOKEN }
+        })
+          .then(response => response.json())
+          .then(json => {
+            console.log('aqui')
+            const { tracks } = json;
+            console.log('tracks ', tracks)
+            this.setState({ tracks });
+          })
       })
       .catch(err => console.log('log do erro: ', err))
   }
@@ -81,7 +97,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      
+
         <div className="App-title"> Music Master</div>
         <FormGroup>
           <InputGroup>
@@ -108,9 +124,9 @@ class App extends Component {
               <Profile
                 artist={this.state.artist}
               />
-              <div className="Gallery">
-
-              </div>
+              <Gallery className="Gallery"
+                tracks={this.state.tracks}
+              />
             </div>
             : <div> </div>
         }
