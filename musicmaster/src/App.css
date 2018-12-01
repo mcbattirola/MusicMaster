@@ -1,5 +1,15 @@
 .App {
   text-align: center;
+  padding: 5%;
+}
+
+body {
+  background: #000;
+  color: #fff;
+}
+
+.App-title {
+  font-size: 26px
 }
 
 .App-logo {
