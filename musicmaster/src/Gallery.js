@@ -44,7 +44,7 @@ class Gallery extends Component {
         }
     }
 
-    
+
 
     render() {
         const { tracks } = this.props;
@@ -69,15 +69,23 @@ class Gallery extends Component {
                                     <div> no image </div>
                             }
 
-                            <div className="track-play">
-                                <div className="track-play-inner">
-                                    {
-                                        this.state.playingUrl === track.preview_url ?
-                                        <span>| |</span>
-                                        : <span> &#9654; </span>
-                                    }
-                                </div>
-                            </div>
+                            {
+                                track.preview_url != null ?
+                                    <div className="track-play">
+                                        <div className="track-play-inner">
+                                            {
+                                                this.state.playingUrl === track.preview_url ?
+                                                    <span>| |</span>
+                                                    : <span> &#9654; </span>
+                                            }
+                                        </div>
+                                    </div>
+                                    :
+
+                                    <div>
+                                    </div>
+                            }
+
 
                             <p className="track-text">
                                 {track.name}
