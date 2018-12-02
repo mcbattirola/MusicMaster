@@ -1,8 +1,8 @@
 
  # MusicMaster
 
-  
-Using Spotify's API and React to show some information.
+  Learning project.
+Uses Spotify's API and React to show some information.
 
 
   
